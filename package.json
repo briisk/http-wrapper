@@ -75,8 +75,16 @@
 
       "preversion": "npm test",
     "version": "npm run build",
-      "postversion": "git push && git push --tags"
+      "postversion": "git push && git push --tags",
 
+    "copy-config": "npm run copy-linters && npm run copy-ts",
+      "copy-linters": "npm run copy-tslint && npm run copy-scsslint",
+        "copy-tslint": "cp ng2-config/tslint.json tslint.json",
+        "copy-scsslint": "cp ng2-config/.scss-lint.yml .scss-lint.yml",
+
+      "copy-ts": "npm run copy-tsconfig && npm run copy-typedoc",
+        "copy-tsconfig": "cp ng2-config/tsconfig.json tsconfig.json",
+        "copy-typedoc": "cp ng2-config/typedoc.json typedoc.json"
   },
   "config": {
     "ghooks": {
