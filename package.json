@@ -52,9 +52,9 @@
     "webdriver:start": "npm run webdriver-manager start",
 
     "lint": "npm run lint:pug && npm run lint:scss && npm run lint:ts",
-      "lint:pug": "node pug.js",
-      "lint:ts": "npm run tslint 'src/**/*.ts'",
-      "lint:scss": "scss-lint",
+      "lint:pug": "node ./ng2-config/pug.js",
+      "lint:ts": "npm run tslint -- -c ./ng2-config/tslint.json 'src/**/*.ts'",
+      "lint:scss": "scss-lint -c ./ng2-config/.scss-lint.yml src/**/*.scss",
 
       "pree2e": "npm run webdriver:update -- --standalone",
     "e2e": "npm run protractor",
