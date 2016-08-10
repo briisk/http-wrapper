@@ -4,12 +4,17 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class HttpWrapper {
-  headers = {};
+  public headers = {};
+  private baseUrl: string = '';
 
   constructor(protected http: Http) {}
 
   setHeader(key: string, value: string) {
     this.headers[key] = value;
+  }
+
+  setBaseUrl(url: string) {
+    this.baseUrl = url;
   }
 
   removeHeader(key: string) {
@@ -49,7 +54,7 @@ export class HttpWrapper {
   }
 
   private generateUrl(url: string): string {
-    return ['http', 'www'].some((item) => url.indexOf(item) > -1) ? url : APIURL + url;
+    return ['http', 'www'].some((item) => url.indexOf(item) > -1) ? url : this.baseUrl + url;
   }
 
   private generateOptions(options) {
