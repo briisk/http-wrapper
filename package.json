@@ -51,10 +51,8 @@
     "webdriver:update": "npm run webdriver-manager update",
     "webdriver:start": "npm run webdriver-manager start",
 
-    "lint": "npm run lint:pug && npm run lint:scss && npm run lint:ts",
-      "lint:pug": "node ./ng2-config/pug.js",
+    "lint": "npm run lint:ts",
       "lint:ts": "npm run tslint 'src/**/*.ts'",
-      "lint:scss": "scss-lint -c ./ng2-config/.scss-lint.yml src/**/*.scss",
 
       "pree2e": "npm run webdriver:update -- --standalone",
     "e2e": "npm run protractor",
@@ -87,7 +85,10 @@
   },
   "config": {
     "ghooks": {
-
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run test",
+      "post-merge": "npm install",
+      "post-pull": "git submodule update"
     }
   },
   "dependencies": {
