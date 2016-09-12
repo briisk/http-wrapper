@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class HttpWrapper {
   public headers = {};
-  private baseUrl: string = '';
+  protected baseUrl: string = '';
 
   constructor(protected http: Http) {}
 
@@ -46,18 +46,18 @@ export class HttpWrapper {
       .map(this.responseHandler, this);
   }
 
-  private responseHandler(resp: Response): Response {
+  protected responseHandler(resp: Response): Response {
     if (!!resp.text()) {
       return resp.json();
     }
     return resp;
   }
 
-  private generateUrl(url: string): string {
+  protected generateUrl(url: string): string {
     return ['http', 'www'].some((item) => url.indexOf(item) > -1) ? url : this.baseUrl + url;
   }
 
-  private generateOptions(options) {
+  protected generateOptions(options) {
     if (!options) {
       options = {};
     }
