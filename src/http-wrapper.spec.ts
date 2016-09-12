@@ -1,30 +1,25 @@
-import {
-  beforeEach,
-  beforeEachProviders,
-  describe,
-  expect,
-  it,
-  inject,
-} from '@angular/core/testing';
-import { provide } from '@angular/core';
 import { Subject, ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
 
 import { HttpWrapper } from './http-wrapper';
-import { HTTP_PROVIDERS, BaseRequestOptions, Http, Response, ResponseOptions  } from '@angular/http';
+import { BaseRequestOptions, Http, Response, ResponseOptions, HttpModule } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
 describe('Service: HttpWrapper', () => {
   let service: HttpWrapper;
   let mockbackend: MockBackend;
 
-  beforeEachProviders(() => [
-    HttpWrapper,
-    MockBackend,
-    BaseRequestOptions,
-    provide(Http, {
-      useFactory: (backend, options) => new Http(backend, options),
-      deps: [MockBackend, BaseRequestOptions]})
-  ]);
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [ HttpWrapper, MockBackend, BaseRequestOptions,
+        { provide: Http,
+          useFactory: (backend, options) => new Http(backend, options),
+          deps: [MockBackend, BaseRequestOptions]
+        }
+      ],
+      imports: [ HttpModule ]
+    });
+  });
 
   beforeEach(inject([MockBackend, HttpWrapper], (_mockbackend, _service) => {
     mockbackend = _mockbackend;
