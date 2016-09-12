@@ -1,2 +1,2 @@
-export * from './http-wrapper';
-export * from './http-wrapper.module';
+export * from './http-wrapper/http-wrapper';
+export * from './http-wrapper/http-wrapper.module';
