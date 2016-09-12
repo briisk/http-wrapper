@@ -5,14 +5,14 @@
   "main": "./src/main.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dakolech/http-wrapper.git"
+    "url": "git+https://github.com/briisk/http-wrapper.git"
   },
   "author": "Daniel Koza <dakolech@gmail.com> (https://github.com/dakolech)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dakolech/http-wrapper/issues"
+    "url": "https://github.com/briisk/http-wrapper/issues"
   },
-  "homepage": "https://github.com/dakolech/http-wrapper#readme",
+  "homepage": "https://github.com/briisk/http-wrapper#readme",
   "scripts": {
     "rimraf": "rimraf",
     "tslint": "tslint",
