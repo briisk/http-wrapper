@@ -1,6 +1,6 @@
 {
   "name": "@briisk/http-wrapper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "./src/main.ts",
   "repository": {
@@ -23,65 +23,50 @@
     "webpack-dev-server": "webpack-dev-server",
     "webdriver-manager": "webdriver-manager",
     "protractor": "protractor",
-
     "clean": "npm cache clean && npm run rimraf -- node_modules doc typings coverage dist",
-      "clean:dist": "npm run rimraf -- dist",
-        "preclean:install": "npm run clean",
-      "clean:install": "npm set progress=false && npm install",
-        "preclean:start": "npm run clean",
-      "clean:start": "npm start",
-
+    "clean:dist": "npm run rimraf -- dist",
+    "preclean:install": "npm run clean",
+    "clean:install": "npm set progress=false && npm install",
+    "preclean:start": "npm run clean",
+    "clean:start": "npm start",
     "watch": "npm run watch:dev",
-      "watch:dev": "npm run build:dev -- --watch",
-      "watch:dev:hmr": "npm run watch:dev -- --hot",
-      "watch:test": "npm run test -- --auto-watch --no-single-run",
-      "watch:prod": "npm run build:prod -- --watch",
-
+    "watch:dev": "npm run build:dev -- --watch",
+    "watch:dev:hmr": "npm run watch:dev -- --hot",
+    "watch:test": "npm run test -- --auto-watch --no-single-run",
+    "watch:prod": "npm run build:prod -- --watch",
     "build": "npm run build:dev",
-        "prebuild:dev": "npm run clean:dist",
-      "build:dev": "webpack --config ng2-config/webpack.dev.js --progress --profile --colors --display-error-details --display-cached",
-        "prebuild:prod": "npm run clean:dist",
-      "build:prod": "webpack --config ng2-config/webpack.prod.js --progress --profile --colors --display-error-details --display-cached --bail",
-
+    "prebuild:dev": "npm run clean:dist",
+    "build:dev": "webpack --config ng2-config/webpack.dev.js --progress --profile --colors --display-error-details --display-cached",
+    "prebuild:prod": "npm run clean:dist",
+    "build:prod": "webpack --config ng2-config/webpack.prod.js --progress --profile --colors --display-error-details --display-cached --bail",
     "server": "npm run server:dev",
-      "server:dev": "webpack-dev-server --config ng2-config/webpack.dev.js --inline --progress --profile --colors --watch --display-error-details --display-cached --content-base src/",
-      "server:dev:hmr": "npm run server:dev -- --hot",
-      "server:prod": "http-server dist --cors",
-
+    "server:dev": "webpack-dev-server --config ng2-config/webpack.dev.js --inline --progress --profile --colors --watch --display-error-details --display-cached --content-base src/",
+    "server:dev:hmr": "npm run server:dev -- --hot",
+    "server:prod": "http-server dist --cors",
     "webdriver:update": "npm run webdriver-manager update",
     "webdriver:start": "npm run webdriver-manager start",
-
     "lint": "npm run lint:ts",
-      "lint:ts": "npm run tslint 'src/**/*.ts'",
-
-      "pree2e": "npm run webdriver:update -- --standalone",
+    "lint:ts": "npm run tslint 'src/**/*.ts'",
+    "pree2e": "npm run webdriver:update -- --standalone",
     "e2e": "npm run protractor",
-      "e2e:live": "npm run e2e -- --elementExplorer",
-
+    "e2e:live": "npm run e2e -- --elementExplorer",
     "test": "karma start",
-
     "ci": "npm test && npm run e2e",
-
     "docs": "npm run typedoc -- --options typedoc.json --exclude '**/*.spec.ts' ./src/",
-
     "start": "npm run server:dev",
-      "start:hmr": "npm run server:dev:hmr",
-
+    "start:hmr": "npm run server:dev:hmr",
     "postinstall": "npm run typings -- install",
     "preinstall": "npm cache clean",
-
-      "preversion": "npm test",
+    "preversion": "npm test",
     "version": "npm run build",
-      "postversion": "git push && git push --tags",
-
+    "postversion": "git push && git push --tags",
     "copy-config": "npm run copy-linters && npm run copy-ts",
-      "copy-linters": "npm run copy-tslint && npm run copy-scsslint",
-        "copy-tslint": "cp ng2-config/tslint.json.example tslint.json",
-        "copy-scsslint": "cp ng2-config/.scss-lint.yml .scss-lint.yml",
-
-      "copy-ts": "npm run copy-tsconfig && npm run copy-typedoc",
-        "copy-tsconfig": "cp ng2-config/tsconfig.json tsconfig.json",
-        "copy-typedoc": "cp ng2-config/typedoc.json typedoc.json"
+    "copy-linters": "npm run copy-tslint && npm run copy-scsslint",
+    "copy-tslint": "cp ng2-config/tslint.json.example tslint.json",
+    "copy-scsslint": "cp ng2-config/.scss-lint.yml .scss-lint.yml",
+    "copy-ts": "npm run copy-tsconfig && npm run copy-typedoc",
+    "copy-tsconfig": "cp ng2-config/tsconfig.json tsconfig.json",
+    "copy-typedoc": "cp ng2-config/typedoc.json typedoc.json"
   },
   "config": {
     "ghooks": {
