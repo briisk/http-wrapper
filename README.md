@@ -7,22 +7,22 @@ Http Wrapper for Angular 2
 # Usage:
 
 ```
-    npm install --save-dev @briisk/http-wrapper
+    npm install --save @briisk/http-wrapper
 ```
 
 ```
     import { HttpWrapperModule } from '@briisk/http-wrapper';
 
     @NgModule({
-    imports: [ HttpWrapperModule ],
-    declarations: [ AppComponent ],
-    bootstrap: [ AppComponent ]
+        imports: [ HttpWrapperModule ],
+        declarations: [ AppComponent ],
+        bootstrap: [ AppComponent ]
     })
     export class AppModule {}
 ```
 
 ```
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
 
   constructor(private httpWrapper: HttpWrapper) {
     this.httpWrapper.get('someUrl').subscribe((request) => {
