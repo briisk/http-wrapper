@@ -38,6 +38,10 @@ export class AppComponent {
 }
 ```
 
+# Documentation
+
+[TypeDoc Documentation](https://briisk.github.io/http-wrapper/doc/classes/_http_wrapper_.httpwrapper.html)
+
 # Development:
 
 ## Requirements:
