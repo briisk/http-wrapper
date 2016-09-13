@@ -5,12 +5,12 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class HttpWrapper {
   /**
-   * Headers used in all request.
+   * Headers used in all requests.
    */
   public headers: any = {};
 
   /**
-   * Base url used in all request.
+   * Base url used in all requests.
    */
   protected baseUrl: string = '';
 
@@ -30,7 +30,7 @@ export class HttpWrapper {
 
   /**
    * Sets base url for all requests.
-   * @param url      An base url
+   * @param url      A base url
    */
   setBaseUrl(url: string) {
     this.baseUrl = url;
@@ -104,8 +104,8 @@ export class HttpWrapper {
 
   /**
    * Handler which transform response to JavaScript format if response exists.
-   * @param resp     Response
-   * @returns        Response
+   * @param resp     Http response
+   * @returns        Http response
    */
   protected responseHandler(resp: Response): Response {
     if (!!resp.text()) {
@@ -120,7 +120,7 @@ export class HttpWrapper {
    * @returns       Generated url string
    */
   protected generateUrl(url: string): string {
-    return ['http', 'www'].some((item) => url.indexOf(item) > -1) ? url : this.baseUrl + url;
+    return ['http', 'www'].some((item) => url.includes(item)) ? url : this.baseUrl + url;
   }
 
   /**
@@ -128,10 +128,7 @@ export class HttpWrapper {
    * @param options   Request options arguments
    * @returns         Request options arguments
    */
-  protected generateOptions(options: RequestOptionsArgs): RequestOptionsArgs {
-    if (!options) {
-      options = {};
-    }
+  protected generateOptions(options: RequestOptionsArgs = {}): RequestOptionsArgs {
     if (!options.headers) {
       options.headers = new Headers();
     }
