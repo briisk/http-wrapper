@@ -52,7 +52,7 @@
     "e2e:live": "npm run e2e -- --elementExplorer",
     "test": "karma start",
     "ci": "npm test && npm run e2e",
-    "docs": "npm run typedoc -- --options typedoc.json --exclude '**/*.spec.ts' ./src/",
+    "docs": "npm run typedoc -- --options typedoc.json --exclude '**/*.spec.ts' ./src/http-wrapper/",
     "start": "npm run server:dev",
     "start:hmr": "npm run server:dev:hmr",
     "postinstall": "npm run typings -- install",
