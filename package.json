@@ -3,6 +3,7 @@
   "version": "0.1.2",
   "description": "",
   "main": "./src/main.ts",
+  "typings": "./src/main.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/briisk/http-wrapper.git"
