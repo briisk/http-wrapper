@@ -1,6 +1,6 @@
 {
   "name": "@briisk/http-wrapper",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "",
   "main": "./src/main.ts",
   "typings": "./src/main.ts",
