@@ -1,6 +1,7 @@
 import { Http, Response, RequestOptionsArgs, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class HttpWrapper {
