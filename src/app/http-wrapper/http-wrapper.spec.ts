@@ -1,5 +1,3 @@
-import { Subject, ReplaySubject, BehaviorSubject, Observable } from 'rxjs';
-
 import { HttpWrapper } from './http-wrapper';
 import { BaseRequestOptions, Http, Response, ResponseOptions, HttpModule } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
