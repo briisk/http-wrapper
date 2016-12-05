@@ -26,8 +26,7 @@
     "ghooks": {
       "pre-commit": "npm run lint",
       "pre-push": "npm run test",
-      "post-merge": "npm install",
-      "post-pull": "git submodule update"
+      "post-merge": "npm install"
     }
   },
   "dependencies": {
