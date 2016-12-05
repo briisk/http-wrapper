@@ -37,7 +37,6 @@
     "@angular/platform-browser": "2.2.1",
     "@angular/platform-browser-dynamic": "2.2.1",
     "@angular/router": "3.2.1",
-    "@briisk/http-wrapper": "0.2.0",
     "core-js": "^2.4.1",
     "rxjs": "5.0.0-rc.4",
     "ts-helpers": "^1.1.1",
