@@ -38,49 +38,34 @@ export class AppComponent {
 }
 ```
 
-# Documentation
+# HttpWrapper
 
-[TypeDoc Documentation](https://briisk.github.io/http-wrapper/doc/classes/_http_wrapper_.httpwrapper.html)
+This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.19-3.
 
-# Development:
+## Development server
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Requirements:
+## Code scaffolding
 
-* NodeJS version > 5.9.0
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class`.
 
-## How to install:
-```
-git clone --recursive https://github.com/briisk/http-wrapper
-npm run copy-config
-npm install
-```
+## Build
 
-## Updating submodules:
-```
-git submodule update --init --recursive
-```
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Run application in development mode:
-```
-npm run server
-```
+## Running unit tests
 
-## Run linters:
-```
-npm run lint
-```
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Run unit tests in watch mode:
-```
-npm run watch:test
-```
+## Running end-to-end tests
 
-## Run e2e tests
-```
-npm run e2e
-```
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Before running the tests make sure you are serving the app via `ng serve`.
 
-## Production build:
-```
-npm run build:prod
-```
+## Deploying to Github Pages
+
+Run `ng github-pages:deploy` to deploy to Github Pages.
+
+## Further help
+
+To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
