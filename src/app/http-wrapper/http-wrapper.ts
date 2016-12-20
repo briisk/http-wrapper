@@ -121,7 +121,7 @@ export class HttpWrapper {
    * @returns       Generated url string
    */
   protected generateUrl(url: string): string {
-    return ['http', 'www'].some((item) => url.includes(item)) ? url : this.baseUrl + url;
+    return !!url.match(/^((?:http(|s):\/\/www\.)|(?:http:\/\/))/) ? url : this.baseUrl + url;
   }
 
   /**
