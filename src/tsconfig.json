@@ -1,9 +1,12 @@
 {
+  "exclude": [ "./test.ts" ],
   "compilerOptions": {
     "baseUrl": "",
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
     "lib": ["es6", "dom"],
     "mapRoot": "./",
     "module": "es6",

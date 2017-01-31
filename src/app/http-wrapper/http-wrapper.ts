@@ -13,7 +13,7 @@ export class HttpWrapper {
   /**
    * Base url used in all requests.
    */
-  protected baseUrl: string = '';
+  protected baseUrl = '';
 
   /**
    * @param http     Angular 2 Http service.
