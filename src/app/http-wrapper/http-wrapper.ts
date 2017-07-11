@@ -3,12 +3,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
+type ResponseInterceptor = (response: any) => any;
+
+const absoluteURLPattern = /^((?:https:\/\/)|(?:http:\/\/)|(?:www))/;
+
 @Injectable()
 export class HttpWrapper {
   /**
    * Headers used in all requests.
    */
-  public headers: any = {};
+  private headers: any = {};
 
   /**
    * Base url used in all requests.
@@ -16,9 +20,35 @@ export class HttpWrapper {
   protected baseUrl = '';
 
   /**
-   * @param http     Angular 2 Http service.
+   * Response interceptors which are fired on every response
+   * @type {Array}
    */
-  constructor(protected http: Http) {}
+  private responseInterceptors: Array<ResponseInterceptor> = [];
+
+  /**
+   * @param http     Angular Http service.
+   */
+  constructor(protected http: Http) {
+    this.addInterceptor(this.defaultResponseInterceptor);
+  }
+
+  /**
+   * default response interceptor
+   * @param resp Response
+   * @returns {any}
+   */
+  protected defaultResponseInterceptor(resp: Response): any {
+    if (typeof resp.json === 'function') {
+      return resp.json();
+    }
+
+    /* istanbul ignore next */
+    if (typeof resp.text === 'function') {
+      return resp.text();
+    }
+
+    return resp;
+  }
 
   /**
    * Sets header for all requests.
@@ -30,11 +60,28 @@ export class HttpWrapper {
   }
 
   /**
+   * Gets header by key for all requests.
+   * @param key      A header key.
+   * @returns value
+   */
+  getHeaderByKey(key: string) {
+    return this.headers[key];
+  }
+
+  /**
    * Sets base url for all requests.
    * @param url      A base url
    */
   setBaseUrl(url: string) {
     this.baseUrl = url;
+  }
+
+  /**
+   * Add response interceptor to all responses
+   * @param interceptor A ResponseInterceptor
+   */
+  addInterceptor<T, S>(interceptor: (arg: T) => S): void {
+    this.responseInterceptors = [ ...this.responseInterceptors, interceptor ];
   }
 
   /**
@@ -51,7 +98,7 @@ export class HttpWrapper {
    * @param options  A request options arguments.
    * @returns        It returns a cold Observable which emits one value (in JavaScript format) from the request.
    */
-  get(url: string, options?: RequestOptionsArgs): Observable<Response> {
+  get<T>(url: string, options?: RequestOptionsArgs): Observable<T> {
     return this.http.get(this.generateUrl(url), this.generateOptions(options))
       .map(this.responseHandler, this);
   }
@@ -63,7 +110,7 @@ export class HttpWrapper {
    * @param options  A request options arguments.
    * @returns        It returns a cold Observable which emits one value (in JavaScript format) from the request.
    */
-  post(url: string, data: Object, options?: RequestOptionsArgs): Observable<Response> {
+  post<T>(url: string, data: Object, options?: RequestOptionsArgs): Observable<T> {
     return this.http.post(this.generateUrl(url), JSON.stringify(data), this.generateOptions(options))
       .map(this.responseHandler, this);
   }
@@ -75,7 +122,7 @@ export class HttpWrapper {
    * @param options  A request options arguments.
    * @returns        It returns a cold Observable which emits one value (in JavaScript format) from the request.
    */
-  put(url: string, data: Object, options?: RequestOptionsArgs): Observable<Response> {
+  put<T>(url: string, data: Object, options?: RequestOptionsArgs): Observable<T> {
     return this.http.put(this.generateUrl(url), JSON.stringify(data), this.generateOptions(options))
       .map(this.responseHandler, this);
   }
@@ -87,7 +134,7 @@ export class HttpWrapper {
    * @param options  A request options arguments.
    * @returns        It returns a cold Observable which emits one value (in JavaScript format) from the request.
    */
-  patch(url: string, data: Object, options?: RequestOptionsArgs): Observable<Response> {
+  patch<T>(url: string, data: Object, options?: RequestOptionsArgs): Observable<T> {
     return this.http.put(this.generateUrl(url), JSON.stringify(data), this.generateOptions(options))
       .map(this.responseHandler, this);
   }
@@ -98,7 +145,7 @@ export class HttpWrapper {
    * @param options  A request options arguments.
    * @returns        It returns a cold Observable which emits one value (in JavaScript format) from the request.
    */
-  delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
+  delete<T>(url: string, options?: RequestOptionsArgs): Observable<T> {
     return this.http.delete(this.generateUrl(url), this.generateOptions(options))
       .map(this.responseHandler, this);
   }
@@ -106,13 +153,10 @@ export class HttpWrapper {
   /**
    * Handler which transform response to JavaScript format if response exists.
    * @param resp     Http response
-   * @returns        Http response
+   * @returns        any
    */
-  protected responseHandler(resp: Response): Response {
-    if (!!resp.text()) {
-      return resp.json();
-    }
-    return resp;
+  protected responseHandler(resp: Response): any {
+    return this.responseInterceptors.reduce((acc: any, interceptor: any) => interceptor(acc), resp);
   }
 
   /**
@@ -121,7 +165,7 @@ export class HttpWrapper {
    * @returns       Generated url string
    */
   protected generateUrl(url: string): string {
-    return !!url.match(/^((?:http(|s):\/\/www\.)|(?:http:\/\/))/) ? url : this.baseUrl + url;
+    return url.match(absoluteURLPattern) ? url : this.baseUrl + url;
   }
 
   /**
