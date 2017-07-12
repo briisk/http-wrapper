@@ -2,8 +2,12 @@ import { Http, Response, RequestOptionsArgs, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 type ResponseInterceptor = (response: any) => any;
+type RequestInterceptor = (request: any) => any;
+type ErrorInterceptor = (error: any) => any;
 
 const absoluteURLPattern = /^((?:https:\/\/)|(?:http:\/\/)|(?:www))/;
 
@@ -26,10 +30,24 @@ export class HttpWrapper {
   private responseInterceptors: Array<ResponseInterceptor> = [];
 
   /**
+   * Response interceptors which are fired on every response
+   * @type {Array}
+   */
+  private requestInterceptors: Array<RequestInterceptor> = [];
+
+  /**
+   * Response interceptors which are fired on every response
+   * @type {Array}
+   */
+  private errorInterceptors: Array<ErrorInterceptor> = [];
+
+  /**
    * @param http     Angular Http service.
    */
   constructor(protected http: Http) {
-    this.addInterceptor(this.defaultResponseInterceptor);
+    this.addResponseInterceptor(this.defaultResponseInterceptor);
+    this.addRequestInterceptor(this.defaultRequestInterceptor);
+    this.addErrorInterceptor(this.defaultErrorInterceptor);
   }
 
   /**
@@ -48,6 +66,32 @@ export class HttpWrapper {
     }
 
     return resp;
+  }
+
+  /**
+   * default request interceptor
+   * @param req any
+   * @returns {any}
+   */
+  protected defaultRequestInterceptor(req: any): string {
+    return JSON.stringify(req);
+  }
+
+  /**
+   * default error interceptor
+   * @param res Response
+   * @returns {any}
+   */
+  protected defaultErrorInterceptor(resp: Response): any {
+    let data;
+    /* istanbul ignore else */
+    if (typeof resp.json === 'function') {
+      data = resp.json();
+    } else {
+      data = resp.statusText;
+    }
+
+    return { status: resp.status, data };
   }
 
   /**
@@ -80,8 +124,24 @@ export class HttpWrapper {
    * Add response interceptor to all responses
    * @param interceptor A ResponseInterceptor
    */
-  addInterceptor<T, S>(interceptor: (arg: T) => S): void {
+  addResponseInterceptor<T, S>(interceptor: (arg: T) => S): void {
     this.responseInterceptors = [ ...this.responseInterceptors, interceptor ];
+  }
+
+  /**
+   * Add error interceptor to all responses
+   * @param interceptor A ResponseInterceptor
+   */
+  addErrorInterceptor<T, S>(interceptor: (arg: T) => S): void {
+    this.errorInterceptors = [ ...this.errorInterceptors, interceptor ];
+  }
+
+  /**
+   * Add reuquest interceptor to all reuqests
+   * @param interceptor A RequestInterceptor
+   */
+  addRequestInterceptor<T, S>(interceptor: (arg: T) => S): void {
+    this.requestInterceptors = [ interceptor, ...this.requestInterceptors ];
   }
 
   /**
@@ -100,7 +160,8 @@ export class HttpWrapper {
    */
   get<T>(url: string, options?: RequestOptionsArgs): Observable<T> {
     return this.http.get(this.generateUrl(url), this.generateOptions(options))
-      .map(this.responseHandler, this);
+      .map(this.responseHandler, this)
+      .catch(this.errorHandler.bind(this));
   }
 
   /**
@@ -111,8 +172,10 @@ export class HttpWrapper {
    * @returns        It returns a cold Observable which emits one value (in JavaScript format) from the request.
    */
   post<T>(url: string, data: Object, options?: RequestOptionsArgs): Observable<T> {
-    return this.http.post(this.generateUrl(url), JSON.stringify(data), this.generateOptions(options))
-      .map(this.responseHandler, this);
+    const newData = this.prepareData(data);
+    return this.http.post(this.generateUrl(url), newData, this.generateOptions(options))
+      .map(this.responseHandler, this)
+      .catch(this.errorHandler.bind(this));
   }
 
   /**
@@ -123,8 +186,10 @@ export class HttpWrapper {
    * @returns        It returns a cold Observable which emits one value (in JavaScript format) from the request.
    */
   put<T>(url: string, data: Object, options?: RequestOptionsArgs): Observable<T> {
-    return this.http.put(this.generateUrl(url), JSON.stringify(data), this.generateOptions(options))
-      .map(this.responseHandler, this);
+    const newData = this.prepareData(data);
+    return this.http.put(this.generateUrl(url), newData, this.generateOptions(options))
+      .map(this.responseHandler, this)
+      .catch(this.errorHandler.bind(this));
   }
 
   /**
@@ -135,8 +200,10 @@ export class HttpWrapper {
    * @returns        It returns a cold Observable which emits one value (in JavaScript format) from the request.
    */
   patch<T>(url: string, data: Object, options?: RequestOptionsArgs): Observable<T> {
-    return this.http.put(this.generateUrl(url), JSON.stringify(data), this.generateOptions(options))
-      .map(this.responseHandler, this);
+    const newData = this.prepareData(data);
+    return this.http.put(this.generateUrl(url), newData, this.generateOptions(options))
+      .map(this.responseHandler, this)
+      .catch(this.errorHandler.bind(this));
   }
 
   /**
@@ -147,7 +214,17 @@ export class HttpWrapper {
    */
   delete<T>(url: string, options?: RequestOptionsArgs): Observable<T> {
     return this.http.delete(this.generateUrl(url), this.generateOptions(options))
-      .map(this.responseHandler, this);
+      .map(this.responseHandler, this)
+      .catch(this.errorHandler.bind(this));
+  }
+
+  /**
+   * Prepare data for request with interceptors
+   * @param data     any
+   * @returns        string
+   */
+  protected prepareData(data: any): string {
+    return this.requestInterceptors.reduce((acc, interceptor) => interceptor(acc), data);
   }
 
   /**
@@ -157,6 +234,12 @@ export class HttpWrapper {
    */
   protected responseHandler(resp: Response): any {
     return this.responseInterceptors.reduce((acc: any, interceptor: any) => interceptor(acc), resp);
+  }
+
+  protected errorHandler(error: Response): Observable<any> {
+    return Observable.throw(
+      this.errorInterceptors.reduce((acc: any, interceptor: any) => interceptor(acc), error)
+    );
   }
 
   /**
