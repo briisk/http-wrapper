@@ -201,7 +201,7 @@ export class HttpWrapper {
    */
   patch<T>(url: string, data: Object, options?: RequestOptionsArgs): Observable<T> {
     const newData = this.prepareData(data);
-    return this.http.put(this.generateUrl(url), newData, this.generateOptions(options))
+    return this.http.patch(this.generateUrl(url), newData, this.generateOptions(options))
       .map(this.responseHandler, this)
       .catch(this.errorHandler.bind(this));
   }
