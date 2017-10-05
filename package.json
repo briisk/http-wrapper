@@ -2,8 +2,8 @@
   "name": "@briisk/http-wrapper",
   "version": "0.4.1",
   "description": "",
-  "main": "./index.ts",
-  "typings": "./index.ts",
+  "main": "./js/index.js",
+  "typings": "./js/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/briisk/http-wrapper.git"
@@ -20,7 +20,8 @@
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
-    "e2e": "protractor"
+    "e2e": "protractor",
+    "build": "tsc"
   },
   "config": {
     "ghooks": {
