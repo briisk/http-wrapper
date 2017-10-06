@@ -1,31 +1,25 @@
 {
   "compilerOptions": {
-    "baseUrl": "",
+    "baseUrl": ".",
     "declaration": true,
+    "stripInternal": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noUnusedParameters": true,
-    "noUnusedLocals": true,
-    "lib": ["es6", "dom"],
-    "mapRoot": "./",
-    "module": "commonjs",
+    "module": "es2015",
     "moduleResolution": "node",
+    "noEmitOnError": false,
+    "outDir": "./js",
+    "rootDir": ".",
     "sourceMap": true,
+    "inlineSources": true,
+    "lib": ["es2015", "dom"],
     "target": "es5",
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "outDir": "js"
+    "skipLibCheck": true
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "src/setupTests.ts"
-  ],
   "files": [
-    "./index.ts"
-  ]
+    "index.ts"
+  ],
+  "angularCompilerOptions": {
+    "strictMetadataEmit": true
+  }
 }
