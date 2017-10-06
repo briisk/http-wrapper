@@ -1,16 +1,16 @@
-import { Http, Headers } from '@angular/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/http'), require('@angular/core'), require('rxjs/Observable'), require('rxjs/add/operator/map'), require('rxjs/add/operator/catch'), require('rxjs/add/observable/throw')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/http', '@angular/core', 'rxjs/Observable', 'rxjs/add/operator/map', 'rxjs/add/operator/catch', 'rxjs/add/observable/throw'], factory) :
+	(factory((global.briisk = global.briisk || {}, global.briisk['http-wraper'] = {}),global.http,global.ng.core,global.Rx));
+}(this, (function (exports,http,core,Observable) { 'use strict';
+
 var absoluteURLPattern = /^((?:https:\/\/)|(?:http:\/\/)|(?:www))/;
-var HttpWrapper = (function () {
+var HttpWrapper = /** @class */ (function () {
     /**
      * @param http     Angular Http service.
      */
-    function HttpWrapper(http) {
-        this.http = http;
+    function HttpWrapper(http$$1) {
+        this.http = http$$1;
         /**
          * Headers used in all requests.
          */
@@ -206,7 +206,7 @@ var HttpWrapper = (function () {
         return this.responseInterceptors.reduce(function (acc, interceptor) { return interceptor(acc); }, resp);
     };
     HttpWrapper.prototype.errorHandler = function (error) {
-        return Observable.throw(this.errorInterceptors.reduce(function (acc, interceptor) { return interceptor(acc); }, error));
+        return Observable.Observable.throw(this.errorInterceptors.reduce(function (acc, interceptor) { return interceptor(acc); }, error));
     };
     /**
      * Handler which generate url for all requests. It uses baseUrl if url doesn't start with 'http'' or 'www'.
@@ -225,7 +225,7 @@ var HttpWrapper = (function () {
         var _this = this;
         if (options === void 0) { options = {}; }
         if (!options.headers) {
-            options.headers = new Headers();
+            options.headers = new http.Headers();
         }
         Object.keys(this.headers)
             .filter(function (key) { return _this.headers.hasOwnProperty(key); })
@@ -234,14 +234,34 @@ var HttpWrapper = (function () {
         });
         return options;
     };
+    HttpWrapper.decorators = [
+        { type: core.Injectable },
+    ];
+    /** @nocollapse */
+    HttpWrapper.ctorParameters = function () { return [
+        { type: http.Http, },
+    ]; };
     return HttpWrapper;
 }());
-export { HttpWrapper };
-HttpWrapper.decorators = [
-    { type: Injectable },
-];
-/** @nocollapse */
-HttpWrapper.ctorParameters = function () { return [
-    { type: Http, },
-]; };
-//# sourceMappingURL=http-wrapper.js.map
+
+var HttpWrapperModule = /** @class */ (function () {
+    function HttpWrapperModule() {
+    }
+    HttpWrapperModule.decorators = [
+        { type: core.NgModule, args: [{
+                    imports: [http.HttpModule],
+                    declarations: [],
+                    providers: [HttpWrapper],
+                },] },
+    ];
+    /** @nocollapse */
+    HttpWrapperModule.ctorParameters = function () { return []; };
+    return HttpWrapperModule;
+}());
+
+exports.HttpWrapperModule = HttpWrapperModule;
+exports.HttpWrapper = HttpWrapper;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+})));
