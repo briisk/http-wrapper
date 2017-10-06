@@ -4,7 +4,7 @@
   "description": "",
   "main": "./bundles/store.umd.js",
   "module": "./index.js",
-  "typings": "./js/index.d.ts",
+  "typings": "./release/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/briisk/http-wrapper.git"
