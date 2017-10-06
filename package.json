@@ -2,7 +2,7 @@
   "name": "@briisk/http-wrapper",
   "version": "0.6.1",
   "description": "",
-  "main": "./bundles/store.umd.js",
+  "main": "./bundles/http-wrapper.umd.js",
   "module": "./index.js",
   "typings": "./release/index.d.ts",
   "repository": {
