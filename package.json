@@ -1,6 +1,6 @@
 {
   "name": "@briisk/http-wrapper",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "",
   "main": "./bundles/store.umd.js",
   "module": "./index.js",
