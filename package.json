@@ -2,9 +2,7 @@
   "name": "@briisk/http-wrapper",
   "version": "0.6.1",
   "description": "",
-  "main": "./bundles/http-wrapper.umd.js",
-  "module": "./index.js",
-  "typings": "./release/index.d.ts",
+  "main": "./release/bundles/http-wrapper.umd.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/briisk/http-wrapper.git"
