@@ -23,7 +23,7 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    "copy": "node tools/copy-package.js && node tools/cleanup.js",
+    "copy": "node tools/copy-package.js && node tools/cleanup.js && mkdir dist/src && mkdir dist/src/app && cp -r src/app/http-wrapper dist/src/app/",
     "bundle": "rimraf dist && rollup -c rollup.config.umd.js && rollup -c rollup.config.esm.js && tsc && ngc",
     "postbundle": "node tools/removecode.js",
     "build": "npm run bundle && npm run copy"
