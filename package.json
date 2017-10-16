@@ -1,6 +1,6 @@
 {
   "name": "@briisk/http-wrapper",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "",
   "main": "http-wrapper.umd.js",
   "jsnext:main": "http-wrapper.esm.js",
